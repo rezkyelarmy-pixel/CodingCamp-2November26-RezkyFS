@@ -1,0 +1,7 @@
+{
+  "version": "1",
+  "specName": "my-dashboard",
+  "title": "My Dashboard",
+  "description": "A personal productivity dashboard built with plain HTML, CSS, and vanilla JavaScript.",
+  "createdAt": "2026-11-05"
+}

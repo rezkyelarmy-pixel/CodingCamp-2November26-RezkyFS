@@ -1,79 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <main class="app">
-        <header class="app__header">
-            <h1>Task Manager</h1>
-            <p class="app__subtitle">Stay organized, one task at a time.</p>
-        </header>
+  <main class="dashboard">
 
-        <form id="task-form" class="task-form" autocomplete="off">
-            <input
-                type="text"
-                id="task-input"
-                class="task-form__input"
-                placeholder="What needs to be done?"
-                maxlength="200"
-                aria-label="Add a new task"
-                required
-            >
-            <button type="submit" class="task-form__btn" aria-label="Add task">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-            </button>
+    <!-- Greeting Section -->
+    <header class="greeting">
+      <h1 id="greeting-text">Hello</h1>
+      <!-- Custom name: click the name chip to edit it -->
+      <p class="name-row">
+        <span id="name-display" class="name-display" title="Click to change your name" role="button" tabindex="0" aria-label="Your name, click to edit"></span>
+        <button id="name-edit-btn" class="icon-btn name-edit-icon" type="button" title="Edit name" aria-label="Edit name">✎</button>
+      </p>
+      <p id="current-time" class="time"></p>
+      <p id="current-date" class="date"></p>
+    </header>
+
+    <div class="grid">
+
+      <!-- Focus Timer Section -->
+      <section class="card timer-card" aria-label="Focus Timer">
+        <h2>Focus Timer</h2>
+        <div id="timer-display" class="timer-display" aria-live="polite">25:00</div>
+        <div class="timer-controls">
+          <button id="timer-start" type="button" class="btn btn-primary">Start</button>
+          <button id="timer-stop"  type="button" class="btn">Stop</button>
+          <button id="timer-reset" type="button" class="btn">Reset</button>
+        </div>
+        <!-- Custom duration row -->
+        <div class="timer-duration-row">
+          <label for="timer-duration-input" class="duration-label">Minutes:</label>
+          <input
+            id="timer-duration-input"
+            type="number"
+            class="duration-input"
+            min="1"
+            max="120"
+            value="25"
+            aria-label="Set timer duration in minutes"
+          />
+          <button id="timer-set-btn" type="button" class="btn btn-set">Set</button>
+        </div>
+      </section>
+
+      <!-- To-Do List Section -->
+      <section class="card todo-card" aria-label="To-Do List">
+        <h2>To-Do List</h2>
+        <form id="todo-form" class="todo-form">
+          <input
+            id="todo-input"
+            type="text"
+            placeholder="Add a new task..."
+            aria-label="Add a new task"
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-primary">Add</button>
         </form>
-
-        <div class="filters" role="tablist" aria-label="Filter tasks">
-            <button class="filters__btn is-active" data-filter="all" role="tab" aria-selected="true">All</button>
-            <button class="filters__btn" data-filter="active" role="tab" aria-selected="false">Active</button>
-            <button class="filters__btn" data-filter="completed" role="tab" aria-selected="false">Completed</button>
+        <!-- Duplicate warning, hidden by default -->
+        <p id="todo-duplicate-warn" class="warn-hint" aria-live="polite" hidden>
+          ⚠ That task already exists.
+        </p>
+        <!-- Sort controls -->
+        <div class="todo-sort" role="group" aria-label="Sort tasks">
+          <span class="sort-label">Sort:</span>
+          <button type="button" class="sort-btn active" data-sort="default" aria-pressed="true">Default</button>
+          <button type="button" class="sort-btn" data-sort="active" aria-pressed="false">Active first</button>
+          <button type="button" class="sort-btn" data-sort="done" aria-pressed="false">Done first</button>
         </div>
+        <ul id="todo-list" class="todo-list"></ul>
+        <p id="todo-empty" class="empty-hint">No tasks yet. Add one above.</p>
+      </section>
 
-        <ul id="task-list" class="task-list" aria-live="polite"></ul>
+      <!-- Quick Links Section -->
+      <section class="card links-card" aria-label="Quick Links">
+        <h2>Quick Links</h2>
+        <form id="link-form" class="link-form">
+          <input
+            id="link-name"
+            type="text"
+            placeholder="Name (e.g. GitHub)"
+            aria-label="Link name"
+            autocomplete="off"
+          />
+          <input
+            id="link-url"
+            type="url"
+            placeholder="https://..."
+            aria-label="Link URL"
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+        <div id="links-list" class="links-list"></div>
+        <p id="links-empty" class="empty-hint">No quick links yet. Add one above.</p>
+      </section>
 
-        <div id="empty-state" class="empty-state" hidden>
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3 3L22 4"></path>
-                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-            </svg>
-            <p id="empty-state-text">No tasks yet. Add one above!</p>
-        </div>
+    </div>
+  </main>
 
-        <footer class="app__footer">
-            <span id="task-count" class="task-count">0 tasks</span>
-            <button id="clear-completed" class="clear-btn" hidden>Clear completed</button>
-        </footer>
-    </main>
-
-    <template id="task-template">
-        <li class="task-item" role="listitem">
-            <label class="task-item__check">
-                <input type="checkbox" class="task-item__checkbox">
-                <span class="task-item__checkmark" aria-hidden="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                </span>
-            </label>
-            <span class="task-item__text"></span>
-            <input type="text" class="task-item__edit-input" maxlength="200" hidden>
-            <button class="task-item__delete" aria-label="Delete task">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-        </li>
-    </template>
-
-    <script src="script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
